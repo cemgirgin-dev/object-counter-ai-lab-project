@@ -1,0 +1,25 @@
+stages:
+  - verify_gpu_access
+  - train
+
+verify_gpu_access:
+  stage: verify_gpu_access
+  script:
+    - nvidia-smi
+    - echo "GPU access verified"
+  tags:
+    - gpu
+
+train_model:
+  stage: train
+  image: pytorch/pytorch:latest
+  # image: tensorflow/tensorflow:latest
+  script:
+    - pip3 install -r requirements.txt
+    - python3 training_pipeline.py
+  artifacts:
+    paths:
+      - training_output.gif
+    expire_in: 1 day
+  tags:
+    - gpu

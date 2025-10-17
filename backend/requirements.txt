@@ -1,0 +1,26 @@
+# AI Object Counter - Main Requirements
+# Backend dependencies
+fastapi==0.100.0
+uvicorn==0.23.0
+python-multipart==0.0.6
+pydantic!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,<3.0.0,>=1.7.4
+
+# YOLOv8 and Computer Vision (M1 optimized)
+ultralytics>=8.0.0
+torch>=2.0.0
+torchvision>=0.15.0
+opencv-python>=4.8.0
+Pillow>=10.0.0
+numpy>=1.24.0
+
+# Testing
+pytest>=7.0.0
+pytest-cov>=4.0.0
+
+# Monitoring
+prometheus-client>=0.18.0
+
+# Week 3 - Safety Model Dependencies
+scikit-learn>=1.3.0
+matplotlib>=3.7.0
+seaborn>=0.12.0

@@ -1,0 +1,196 @@
+{
+    "dashboard": {
+        "id": null,
+        "title": "AI Object Counter Dashboard",
+        "tags": [
+            "ai",
+            "object-detection",
+            "yolo"
+        ],
+        "style": "dark",
+        "timezone": "browser",
+        "refresh": "5s",
+        "time": {
+            "from": "now-1h",
+            "to": "now"
+        },
+        "panels": [
+            {
+                "id": 1,
+                "title": "Request Rate",
+                "type": "stat",
+                "targets": [
+                    {
+                        "expr": "rate(http_requests_total[5m])",
+                        "legendFormat": "Requests/sec",
+                        "datasource": "Prometheus"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 0
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "palette-classic"
+                        },
+                        "custom": {
+                            "hideFrom": {
+                                "legend": false,
+                                "tooltip": false,
+                                "vis": false
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "id": 2,
+                "title": "Response Time",
+                "type": "stat",
+                "targets": [
+                    {
+                        "expr": "rate(http_request_duration_seconds_sum[5m]) / rate(http_request_duration_seconds_count[5m])",
+                        "legendFormat": "Avg Response Time",
+                        "datasource": "Prometheus"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 0
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "unit": "s",
+                        "color": {
+                            "mode": "palette-classic"
+                        }
+                    }
+                }
+            },
+            {
+                "id": 3,
+                "title": "HTTP Requests Over Time",
+                "type": "graph",
+                "targets": [
+                    {
+                        "expr": "rate(http_requests_total[1m])",
+                        "legendFormat": "{{method}} {{endpoint}}",
+                        "datasource": "Prometheus"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 24,
+                    "x": 0,
+                    "y": 8
+                },
+                "xAxis": {
+                    "mode": "time"
+                },
+                "yAxes": [
+                    {
+                        "label": "Requests/sec",
+                        "min": 0
+                    }
+                ]
+            },
+            {
+                "id": 4,
+                "title": "Model Inference Time",
+                "type": "stat",
+                "targets": [
+                    {
+                        "expr": "ai_object_counter_model_inference_duration_seconds",
+                        "legendFormat": "Inference Time",
+                        "datasource": "Prometheus"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 16
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "unit": "s",
+                        "color": {
+                            "mode": "palette-classic"
+                        }
+                    }
+                }
+            },
+            {
+                "id": 5,
+                "title": "Model Confidence",
+                "type": "stat",
+                "targets": [
+                    {
+                        "expr": "ai_object_counter_model_confidence_score",
+                        "legendFormat": "Confidence",
+                        "datasource": "Prometheus"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 16
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "unit": "percent",
+                        "min": 0,
+                        "max": 1,
+                        "color": {
+                            "mode": "palette-classic"
+                        }
+                    }
+                }
+            },
+            {
+                "id": 6,
+                "title": "Object Detection Counts",
+                "type": "table",
+                "targets": [
+                    {
+                        "expr": "ai_object_counter_objects_detected_total",
+                        "legendFormat": "{{object_type}}",
+                        "datasource": "Prometheus",
+                        "format": "table"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 24,
+                    "x": 0,
+                    "y": 24
+                },
+                "transformations": [
+                    {
+                        "id": "organize",
+                        "options": {
+                            "excludeByName": {
+                                "Time": true,
+                                "__name__": true,
+                                "instance": true,
+                                "job": true
+                            },
+                            "indexByName": {},
+                            "renameByName": {
+                                "Value": "Count",
+                                "object_type": "Object Type"
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

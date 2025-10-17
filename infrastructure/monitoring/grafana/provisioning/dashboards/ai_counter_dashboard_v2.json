@@ -1,0 +1,558 @@
+{
+    "dashboard": {
+        "id": null,
+        "title": "AI Object Counter Dashboard v2.0 - Safety & Performance",
+        "tags": [
+            "ai",
+            "object-detection",
+            "yolo",
+            "safety",
+            "military-detection"
+        ],
+        "style": "dark",
+        "timezone": "browser",
+        "refresh": "5s",
+        "time": {
+            "from": "now-1h",
+            "to": "now"
+        },
+        "panels": [
+            {
+                "id": 1,
+                "title": "Request Rate",
+                "type": "stat",
+                "targets": [
+                    {
+                        "expr": "rate(http_requests_total[5m])",
+                        "legendFormat": "Requests/sec",
+                        "datasource": "Prometheus"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 6,
+                    "x": 0,
+                    "y": 0
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "palette-classic"
+                        },
+                        "custom": {
+                            "hideFrom": {
+                                "legend": false,
+                                "tooltip": false,
+                                "vis": false
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "id": 2,
+                "title": "Response Time",
+                "type": "stat",
+                "targets": [
+                    {
+                        "expr": "rate(http_request_duration_seconds_sum[5m]) / rate(http_request_duration_seconds_count[5m])",
+                        "legendFormat": "Avg Response Time",
+                        "datasource": "Prometheus"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 6,
+                    "x": 6,
+                    "y": 0
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "unit": "s",
+                        "color": {
+                            "mode": "palette-classic"
+                        }
+                    }
+                }
+            },
+            {
+                "id": 3,
+                "title": "Safety Blocks",
+                "type": "stat",
+                "targets": [
+                    {
+                        "expr": "sum(rate(safety_blocks_total[5m]))",
+                        "legendFormat": "Blocks/sec",
+                        "datasource": "Prometheus"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 6,
+                    "x": 12,
+                    "y": 0
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "thresholds"
+                        },
+                        "thresholds": {
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                },
+                                {
+                                    "color": "yellow",
+                                    "value": 0.1
+                                },
+                                {
+                                    "color": "red",
+                                    "value": 1
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "id": 4,
+                "title": "Active Requests",
+                "type": "stat",
+                "targets": [
+                    {
+                        "expr": "active_requests",
+                        "legendFormat": "Active",
+                        "datasource": "Prometheus"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 6,
+                    "x": 18,
+                    "y": 0
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "palette-classic"
+                        }
+                    }
+                }
+            },
+            {
+                "id": 5,
+                "title": "HTTP Requests Over Time",
+                "type": "graph",
+                "targets": [
+                    {
+                        "expr": "rate(http_requests_total[1m])",
+                        "legendFormat": "{{method}} {{endpoint}}",
+                        "datasource": "Prometheus"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 8
+                },
+                "xAxis": {
+                    "mode": "time"
+                },
+                "yAxes": [
+                    {
+                        "label": "Requests/sec",
+                        "min": 0
+                    }
+                ]
+            },
+            {
+                "id": 6,
+                "title": "Safety Blocks Over Time",
+                "type": "graph",
+                "targets": [
+                    {
+                        "expr": "rate(safety_blocks_total[1m])",
+                        "legendFormat": "{{object_type}} - {{reason}}",
+                        "datasource": "Prometheus"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 8
+                },
+                "xAxis": {
+                    "mode": "time"
+                },
+                "yAxes": [
+                    {
+                        "label": "Blocks/sec",
+                        "min": 0
+                    }
+                ]
+            },
+            {
+                "id": 7,
+                "title": "Model Inference Time",
+                "type": "stat",
+                "targets": [
+                    {
+                        "expr": "rate(model_inference_duration_seconds_sum[5m]) / rate(model_inference_duration_seconds_count[5m])",
+                        "legendFormat": "Avg Inference Time",
+                        "datasource": "Prometheus"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 6,
+                    "x": 0,
+                    "y": 16
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "unit": "s",
+                        "color": {
+                            "mode": "palette-classic"
+                        }
+                    }
+                }
+            },
+            {
+                "id": 8,
+                "title": "Model Confidence",
+                "type": "stat",
+                "targets": [
+                    {
+                        "expr": "rate(model_confidence_score_sum[5m]) / rate(model_confidence_score_count[5m])",
+                        "legendFormat": "Avg Confidence",
+                        "datasource": "Prometheus"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 6,
+                    "x": 6,
+                    "y": 16
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "unit": "percent",
+                        "min": 0,
+                        "max": 1,
+                        "color": {
+                            "mode": "palette-classic"
+                        }
+                    }
+                }
+            },
+            {
+                "id": 9,
+                "title": "Safety Detection Confidence",
+                "type": "stat",
+                "targets": [
+                    {
+                        "expr": "rate(safety_detection_confidence_sum[5m]) / rate(safety_detection_confidence_count[5m])",
+                        "legendFormat": "Avg Safety Confidence",
+                        "datasource": "Prometheus"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 6,
+                    "x": 12,
+                    "y": 16
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "unit": "percent",
+                        "min": 0,
+                        "max": 1,
+                        "color": {
+                            "mode": "thresholds"
+                        },
+                        "thresholds": {
+                            "steps": [
+                                {
+                                    "color": "red",
+                                    "value": null
+                                },
+                                {
+                                    "color": "yellow",
+                                    "value": 0.5
+                                },
+                                {
+                                    "color": "green",
+                                    "value": 0.8
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "id": 10,
+                "title": "Model Accuracy",
+                "type": "stat",
+                "targets": [
+                    {
+                        "expr": "model_accuracy",
+                        "legendFormat": "{{object_type}}",
+                        "datasource": "Prometheus"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 6,
+                    "x": 18,
+                    "y": 16
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "unit": "percent",
+                        "min": 0,
+                        "max": 100,
+                        "color": {
+                            "mode": "thresholds"
+                        },
+                        "thresholds": {
+                            "steps": [
+                                {
+                                    "color": "red",
+                                    "value": null
+                                },
+                                {
+                                    "color": "yellow",
+                                    "value": 70
+                                },
+                                {
+                                    "color": "green",
+                                    "value": 90
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "id": 11,
+                "title": "Object Detection Counts by Type",
+                "type": "table",
+                "targets": [
+                    {
+                        "expr": "rate(objects_detected_count_sum[5m])",
+                        "legendFormat": "{{object_type}}",
+                        "datasource": "Prometheus",
+                        "format": "table"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 24
+                },
+                "transformations": [
+                    {
+                        "id": "organize",
+                        "options": {
+                            "excludeByName": {
+                                "Time": true,
+                                "__name__": true,
+                                "instance": true,
+                                "job": true
+                            },
+                            "indexByName": {},
+                            "renameByName": {
+                                "Value": "Count/sec",
+                                "object_type": "Object Type"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": 12,
+                "title": "Safety Blocks by Reason",
+                "type": "table",
+                "targets": [
+                    {
+                        "expr": "rate(safety_blocks_total[5m])",
+                        "legendFormat": "{{object_type}} - {{reason}}",
+                        "datasource": "Prometheus",
+                        "format": "table"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 24
+                },
+                "transformations": [
+                    {
+                        "id": "organize",
+                        "options": {
+                            "excludeByName": {
+                                "Time": true,
+                                "__name__": true,
+                                "instance": true,
+                                "job": true
+                            },
+                            "indexByName": {},
+                            "renameByName": {
+                                "Value": "Blocks/sec",
+                                "object_type": "Object Type",
+                                "reason": "Block Reason"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": 13,
+                "title": "Model Performance Over Time",
+                "type": "graph",
+                "targets": [
+                    {
+                        "expr": "rate(model_inference_duration_seconds_sum[1m]) / rate(model_inference_duration_seconds_count[1m])",
+                        "legendFormat": "{{model_name}} - {{object_type}}",
+                        "datasource": "Prometheus"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 32
+                },
+                "xAxis": {
+                    "mode": "time"
+                },
+                "yAxes": [
+                    {
+                        "label": "Inference Time (s)",
+                        "min": 0
+                    }
+                ]
+            },
+            {
+                "id": 14,
+                "title": "Safety Confidence Distribution",
+                "type": "graph",
+                "targets": [
+                    {
+                        "expr": "rate(safety_detection_confidence_sum[1m]) / rate(safety_detection_confidence_count[1m])",
+                        "legendFormat": "{{object_type}} - {{reason}}",
+                        "datasource": "Prometheus"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 32
+                },
+                "xAxis": {
+                    "mode": "time"
+                },
+                "yAxes": [
+                    {
+                        "label": "Confidence Score",
+                        "min": 0,
+                        "max": 1
+                    }
+                ]
+            },
+            {
+                "id": 15,
+                "title": "Image Processing Metrics",
+                "type": "graph",
+                "targets": [
+                    {
+                        "expr": "rate(image_resolution_pixels_sum[1m]) / rate(image_resolution_pixels_count[1m])",
+                        "legendFormat": "{{dimension}}",
+                        "datasource": "Prometheus"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 40
+                },
+                "xAxis": {
+                    "mode": "time"
+                },
+                "yAxes": [
+                    {
+                        "label": "Pixels",
+                        "min": 0
+                    }
+                ]
+            },
+            {
+                "id": 16,
+                "title": "Model Accuracy Over Time",
+                "type": "graph",
+                "targets": [
+                    {
+                        "expr": "model_accuracy",
+                        "legendFormat": "{{object_type}}",
+                        "datasource": "Prometheus"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 40
+                },
+                "xAxis": {
+                    "mode": "time"
+                },
+                "yAxes": [
+                    {
+                        "label": "Accuracy (%)",
+                        "min": 0,
+                        "max": 100
+                    }
+                ]
+            }
+        ],
+        "templating": {
+            "list": [
+                {
+                    "name": "object_type",
+                    "type": "query",
+                    "query": "label_values(objects_detected_count, object_type)",
+                    "refresh": 1,
+                    "includeAll": true,
+                    "multi": true
+                },
+                {
+                    "name": "model_name",
+                    "type": "query",
+                    "query": "label_values(model_inference_duration_seconds, model_name)",
+                    "refresh": 1,
+                    "includeAll": true,
+                    "multi": true
+                }
+            ]
+        },
+        "annotations": {
+            "list": [
+                {
+                    "name": "Safety Alerts",
+                    "datasource": "Prometheus",
+                    "expr": "safety_blocks_total > 0",
+                    "iconColor": "red",
+                    "title": "Safety Block Alert"
+                }
+            ]
+        }
+    }
+}
