@@ -110,29 +110,6 @@ cd ..
 
 These paths are excluded via `.gitignore`; remove or clean them before committing if unnecessary.
 
-## 🚀 Publish to Your GitHub
-1. Move into the project root:
-   ```bash
-   cd /Users/cemgirgin/Desktop/object_recognition
-   ```
-2. Initialise Git and make the first commit:
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   ```
-3. Set the main branch:
-   ```bash
-   git branch -M main
-   ```
-4. Create an empty repo on GitHub, e.g. `https://github.com/<username>/object-recognition.git`
-5. Add the remote and push:
-   ```bash
-   git remote add origin https://github.com/<username>/object-recognition.git
-   git push -u origin main
-   ```
-
-> If the push fails because of large files, remove them from the repository (or switch to Git LFS) before retrying.
 
 ## 🗺️ Next Steps
 - Explore `/docs` in the backend and the Flutter UI to confirm end-to-end flows.
