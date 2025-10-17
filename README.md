@@ -117,4 +117,4 @@ These paths are excluded via `.gitignore`; remove or clean them before committin
 - Use the few-shot endpoints to fine-tune for your own object categories.
 - Browse `docs/legacy/` for historical reports and reference material.
 
-With this structure you have a clean, documented base that is ready for publication on your personal GitHub or further feature development. Remember to review large assets before committing to keep the repository lightweight.
+
